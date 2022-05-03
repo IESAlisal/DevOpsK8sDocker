@@ -20,5 +20,4 @@ git clone https://github.com/IESAlisal/DevOpsK8sDocker.git
 
 ## También hay guías de uso de git y docker:
 
-- [Guías de uso de git](./Guias/Git/README.md)
-    
+- [Guías de uso de git](./Guias/)
