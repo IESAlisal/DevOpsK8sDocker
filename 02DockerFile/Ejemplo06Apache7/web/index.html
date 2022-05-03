@@ -1,0 +1,9 @@
+<h1>Hola desde un Dockerfile</h1>
+<h2>Modificando el archivo. </h2>
+
+Los archivos estan en la carpeta del host y se "vinculan" con el contenedor.
+
+Si asocio la carpeta en el docker run -v se actualiza la web cambiando el fichero en el host.</br>
+Si no asocio la carpeta, se copia en la creación del contenedor y solo puedo actualizarla dentro del contenedor.</br>
+
+$PWD es la ruta del directorio actual en el host.

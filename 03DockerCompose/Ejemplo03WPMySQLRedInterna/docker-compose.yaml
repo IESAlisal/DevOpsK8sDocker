@@ -1,0 +1,41 @@
+#docker-compose up 
+version: '3'
+services:
+    contenedor_mysql:
+      image: mysql:8
+      restart: always
+      environment:
+        MYSQL_DATABASE:      miwordpress
+        MYSQL_USER:          miwordpress
+        MYSQL_ROOT_PASSWORD: miwordpress
+        MYSQL_PASSWORD:      miwordpress
+        #MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      volumes:
+        - mysql_data:/var/lib/mysql      
+      networks:
+        - red-interna
+    contenedor_wordpress:
+        depends_on:
+            - contenedor_mysql
+        image: wordpress:latest
+        ports:
+            - "8001:80"
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST:     contenedor_mysql:3306
+            WORDPRESS_DB_USER:     miwordpress
+            WORDPRESS_DB_PASSWORD: miwordpress
+            WORDPRESS_DB_NAME:     miwordpress
+        volumes:
+            - wordpress_data:/var/www/html
+        networks:
+            - red-interna
+            - red-publica        
+volumes:
+  mysql_data: {}
+  wordpress_data: {}
+#Se crean dos redes. Una especifica entre el wp y el mysql
+# y otra publica para el wordpress
+networks: 
+  red-interna:
+  red-publica:          

@@ -1,0 +1,52 @@
+#Tarea03
+# Crea un fichero docker-compose en el que se despliegue una aplicación WordPress. 
+# Se debe utilizar al menos dos servicios y especificar una red compartida por ambos servicios.
+
+# Para ejecutarlo
+#docker-compose up
+
+#Para ejecutarlo con variables de entorno
+#docker-compose --env-file .env.dev up 
+#docker ps    para ver el contenedor que se ha lanzado
+version: "3"
+    
+services:
+  db8wp:
+    image: mysql:8.0.23
+    restart: always
+    environment:
+      #pasar esto a un endfile
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PW}
+      MYSQL_PASSWORD: ${DB_PW}
+      #MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db8wp_data:/var/lib/mysql      
+    networks:
+      - wp570-mysql8-interna
+  wordpress570:
+    depends_on:
+      - db8wp
+    image: wordpress:5.7.0
+    ports:
+      - "8001:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db8wp:3306
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PW}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+    volumes:
+      - wordpress570:/var/www/html
+    networks:
+      - wp570-mysql8-interna
+      - wp570-publica
+volumes:
+  db8wp_data: {}
+  wordpress570: {}
+#Se crean dos redes. Una especifica entre el wp y el mysql
+# y otra publica para el wordpress
+networks: 
+  wp570-mysql8-interna:
+  wp570-publica:

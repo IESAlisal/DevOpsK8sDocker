@@ -1,0 +1,39 @@
+# Para ejecutarlo
+#docker-compose up -d
+#docker ps    para ver el contenedor que se ha lanzado
+version: "2"
+    
+services:
+  mysqldb:
+  #cambiar el nombre del contenedor de base de datos a un nombre mas especifico
+    image: mysql:8.0
+    #buscar una version mas moderna mysql
+    container_name: "${PROJECT_NAME}_mysql"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+    #pasar esto a un endfile
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+    
+  drupal:
+    depends_on:
+      - mysqldb
+    image: drupal:9.2
+    #No coger la version latest sino coger el numero de la ultima version
+    container_name: "${PROJECT_NAME}_drupal"
+    ports:
+      - "8002:80"
+    restart: always
+    environment:
+      DB_HOST: $DB_HOST  
+      DB_PORT: $DB_PORT
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
+      DB_DRIVER: $DB_DRIVER
+volumes:
+  db_data: {}

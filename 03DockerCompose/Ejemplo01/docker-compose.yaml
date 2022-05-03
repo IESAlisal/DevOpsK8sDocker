@@ -1,0 +1,20 @@
+#apk add docker-compose   (apt-get install)
+#docker-compose version
+# Para ejecutarlo
+#docker-compose up -d
+#docker ps    para ver el contenedor que se ha lanzado
+version: "3"
+services:
+  portainer:
+    image: portainer/portainer-ce
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - 9001:9000
+    restart: always
+volumes:
+  portainer_data:
+
+#Esto genera un contenedor que se arranca por web con PORTAINER

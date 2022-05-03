@@ -1,0 +1,35 @@
+# Para ejecutarlo
+#docker-compose up -d
+#docker ps    para ver el contenedor que se ha lanzado
+version: "2"
+    
+services:
+  db:
+  #cambiar el nombre del contenedor de base de datos a un nombre mas especifico
+    image: mysql:5.7
+    #buscar una version mas moderna mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+    #pasar esto a un endfile
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    #No coger la version latest sino coger el numero de la ultima version
+    ports:
+      - "8002:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+volumes:
+  db_data: {}

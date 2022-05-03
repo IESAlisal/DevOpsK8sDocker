@@ -1,0 +1,16 @@
+Ejecutar la aplicación
+
+Instala en node el archivo 
+    # nodemon will watch the files in the directory in which nodemon was started, 
+    # and if any files change, nodemon will automatically restart your node application.
+    # https://www.npmjs.com/package/nodemon/v/1.11.0
+    command: nodemon -L --inspect=0.0.0.0:5858
+    
+    # Sincroniza la carpeta local . del proyecto con la carpeta de la imagen /code
+
+Si hay un cambio en la carpeta . el puerto 5858 escucha y se ocupa de volver a actualizar la 
+carpeta /code del contenedor
+
+Usando el terminal, navega hasta el directorio "app" y ejecuta lo siguiente:
+
+$ docker-compose up
