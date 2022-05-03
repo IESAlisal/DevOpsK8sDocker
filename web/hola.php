@@ -6,7 +6,9 @@
     <body>
         <h1>Hola</h1>
         <p>
-           Ejemplo de Hola
+            <?php
+                echo "Hola, " . $_GET["nombre"];
+            ?>  
         </p>
     </body>
 </html>
